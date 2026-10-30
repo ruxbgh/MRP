@@ -3,757 +3,385 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MRP Arena — învață planificarea necesarului de materiale</title>
+<title>Black Friday Rush — MRP NovaPlay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0f0a2e; --bg2:#1b1250; --card:rgba(255,255,255,.07); --line:rgba(255,255,255,.14);
-  --text:#f7f4ff; --muted:#bdb4ea;
-  --pink:#ff3d9a; --cyan:#19e3ff; --lime:#b8ff3d; --orange:#ff9f1c; --violet:#8b5cff; --yellow:#ffe53d; --red:#ff4d5e;
-  --ink:#140c3d;
-  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --bg:#07060d; --card:rgba(255,255,255,.07); --line:rgba(255,255,255,.16);
+  --text:#fbf9ff; --muted:#b9b3d6;
+  --pink:#ff2d95; --cyan:#19e3ff; --lime:#b8ff3d; --orange:#ff9f1c; --violet:#8b5cff; --yellow:#ffe53d; --red:#ff4d5e;
+  --ink:#120a2e; --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0; color:var(--text); font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif; line-height:1.5;
-  background:
-    radial-gradient(900px 500px at 8% -10%, rgba(255,61,154,.38), transparent 60%),
-    radial-gradient(800px 500px at 100% 0%, rgba(25,227,255,.28), transparent 60%),
-    radial-gradient(900px 600px at 50% 110%, rgba(139,92,255,.35), transparent 60%),
-    var(--bg);
-  background-attachment:fixed; min-height:100vh;
-}
-.wrap{max-width:1180px; margin:0 auto; padding:20px 16px 80px}
-header.hero{padding:18px 0 6px; text-align:center}
-.logo{font-weight:800; font-size:clamp(34px,6vw,64px); letter-spacing:-1px; margin:0;
-  background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--lime),var(--cyan),var(--violet));
-  -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% 100%; animation:shift 8s linear infinite}
+body{margin:0;color:var(--text);font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;min-height:100vh;
+  background:radial-gradient(900px 500px at 0% -10%,rgba(255,229,61,.28),transparent 60%),radial-gradient(900px 500px at 100% 0%,rgba(255,45,149,.35),transparent 60%),radial-gradient(900px 600px at 50% 115%,rgba(139,92,255,.35),transparent 60%),var(--bg);background-attachment:fixed}
+.ticker{background:var(--yellow);color:#000;font:800 13px var(--mono);overflow:hidden;white-space:nowrap;padding:6px 0;border-bottom:3px solid #000}
+.ticker span{display:inline-block;padding-left:100%;animation:tick 28s linear infinite}
+@keyframes tick{to{transform:translateX(-100%)}}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 16px 80px}
+h1.logo{margin:6px 0 0;text-align:center;font-weight:800;font-size:clamp(32px,6vw,62px);letter-spacing:-1px;line-height:1.05;
+  background:linear-gradient(90deg,var(--yellow),var(--orange),var(--pink),var(--violet),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:shift 7s linear infinite}
 @keyframes shift{to{background-position:200% 0}}
-.tag{color:var(--muted); margin:2px 0 0; font-size:clamp(14px,2vw,18px)}
-nav.tabs{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:18px 0 22px; position:sticky; top:0; z-index:20; padding:10px 0; backdrop-filter:blur(10px)}
-.tab{border:2px solid var(--line); background:rgba(255,255,255,.06); color:var(--text); font:600 14px 'Poppins',sans-serif; padding:10px 16px; border-radius:999px; cursor:pointer; transition:.2s}
-.tab:hover{transform:translateY(-2px); border-color:var(--cyan)}
-.tab.on{background:linear-gradient(90deg,var(--pink),var(--violet)); border-color:transparent; box-shadow:0 6px 22px rgba(255,61,154,.45)}
-section.pane{display:none; animation:pop .35s ease}
-section.pane.on{display:block}
-@keyframes pop{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
-.card{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px 20px; margin:0 0 18px; backdrop-filter:blur(6px)}
+.tag{text-align:center;color:var(--muted);margin:2px 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 20px;margin:0 0 18px;backdrop-filter:blur(6px)}
 .card h2,.card h3{margin:.1em 0 .4em}
-h2{font-size:clamp(22px,3.2vw,30px)}
-.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px}
-.grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 .muted{color:var(--muted)}
-.btn{border:0; cursor:pointer; font:700 14px 'Poppins',sans-serif; color:var(--ink); padding:10px 18px; border-radius:14px;
-  background:linear-gradient(90deg,var(--lime),var(--cyan)); transition:.15s; box-shadow:0 6px 18px rgba(25,227,255,.3)}
+.btn{border:0;cursor:pointer;font:800 15px 'Poppins',sans-serif;color:var(--ink);padding:11px 20px;border-radius:14px;background:linear-gradient(90deg,var(--yellow),var(--orange));transition:.15s;box-shadow:0 6px 20px rgba(255,159,28,.35)}
 .btn:hover{transform:translateY(-2px) scale(1.02)}
-.btn:active{transform:none}
-.btn.pink{background:linear-gradient(90deg,var(--pink),var(--orange)); box-shadow:0 6px 18px rgba(255,61,154,.35)}
-.btn.violet{background:linear-gradient(90deg,var(--violet),var(--cyan)); color:#fff}
-.btn.ghost{background:transparent; color:var(--text); border:2px solid var(--line); box-shadow:none}
-.btn[disabled]{opacity:.4; cursor:not-allowed; transform:none}
-.row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-.chip{display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-weight:600; font-size:13px; background:rgba(255,255,255,.1); border:1px solid var(--line)}
-.chip.btnlike{cursor:pointer; transition:.15s} .chip.btnlike:hover{background:rgba(255,229,61,.2); border-color:var(--yellow)}
+.btn.pink{background:linear-gradient(90deg,var(--pink),var(--orange));color:#fff}
+.btn.violet{background:linear-gradient(90deg,var(--violet),var(--cyan));color:#fff;box-shadow:0 6px 18px rgba(139,92,255,.35)}
+.btn.ghost{background:transparent;color:var(--text);border:2px solid var(--line);box-shadow:none}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-weight:600;font-size:13px;background:rgba(255,255,255,.1);border:1px solid var(--line)}
+input.txt{width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:rgba(0,0,0,.35);color:#fff;font:600 16px 'Poppins',sans-serif}
+input.txt:focus{outline:0;border-color:var(--yellow)}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+.rules li{margin:4px 0}
+.sale{display:inline-block;background:var(--pink);color:#fff;font:800 13px var(--mono);padding:3px 10px;border-radius:6px;transform:rotate(-3deg)}
 
-/* mission cards */
-.mission{cursor:pointer; position:relative; overflow:hidden; border:2px solid var(--line); border-radius:20px; padding:18px; background:var(--card); transition:.2s}
-.mission:hover{transform:translateY(-4px)}
-.mission.on{border-color:var(--yellow); box-shadow:0 0 0 3px rgba(255,229,61,.25), 0 14px 30px rgba(0,0,0,.35)}
-.mission .big{font-size:42px}
-.mission small{color:var(--yellow); font-weight:700; text-transform:uppercase; letter-spacing:.08em}
-.mission::after{content:""; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:var(--c,var(--pink)); opacity:.35; filter:blur(4px)}
+/* timer */
+#bar{position:sticky;top:0;z-index:30;display:none;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 16px;margin:0 -16px 14px;background:rgba(7,6,13,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--line)}
+#bar .time{font:800 30px var(--mono);color:var(--yellow);min-width:100px}
+#bar .time.warn{color:var(--orange)} #bar .time.crit{color:var(--red);animation:pulse .8s infinite}
+@keyframes pulse{50%{opacity:.5}}
+#bar .prog{flex:1;min-width:140px;height:12px;border-radius:99px;background:rgba(255,255,255,.15);overflow:hidden}
+#bar .prog i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--lime),var(--yellow),var(--red));transition:width .3s linear}
+.dots{display:flex;gap:6px}.dot{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.2)}
+.dot.on{background:var(--lime);box-shadow:0 0 10px var(--lime)}.dot.cur{background:var(--cyan);animation:pulse 1s infinite}
 
-/* BOM tree */
-.tree{overflow-x:auto; padding:6px 2px 2px}
-.node{display:flex; flex-direction:column; align-items:center}
-.kids{display:flex; gap:14px; margin-top:18px; position:relative; padding-top:14px}
-.kids::before{content:""; position:absolute; top:0; left:12%; right:12%; border-top:3px dashed var(--line)}
-.kids>.node{position:relative}
-.kids>.node::before{content:""; position:absolute; top:-14px; left:50%; height:14px; border-left:3px dashed var(--line)}
-.nchip{position:relative; background:var(--c); color:var(--ink); border-radius:16px; padding:8px 14px; text-align:center; min-width:130px; box-shadow:0 8px 20px rgba(0,0,0,.35)}
-.nchip b{display:block; font-size:14px}
-.nchip small{display:block; font-size:11px; font-weight:600; opacity:.8}
-.nchip .q{position:absolute; top:-12px; right:-8px; background:var(--ink); color:var(--yellow); font:800 13px var(--mono); padding:2px 8px; border-radius:999px; border:2px solid var(--yellow)}
+/* tree */
+.tree{overflow-x:auto;padding:6px 2px 2px}
+.node{display:flex;flex-direction:column;align-items:center}
+.kids{display:flex;gap:14px;margin-top:18px;position:relative;padding-top:14px}
+.kids::before{content:"";position:absolute;top:0;left:12%;right:12%;border-top:3px dashed var(--line)}
+.kids>.node{position:relative}.kids>.node::before{content:"";position:absolute;top:-14px;left:50%;height:14px;border-left:3px dashed var(--line)}
+.nchip{position:relative;background:var(--c);color:var(--ink);border-radius:16px;padding:8px 12px;text-align:center;min-width:110px;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.nchip b{display:block;font-size:13px}.nchip small{display:block;font-size:11px;font-weight:600;opacity:.85}
+.nchip .qty{position:absolute;top:-12px;right:-8px;background:var(--ink);color:var(--yellow);font:800 13px var(--mono);padding:2px 8px;border-radius:999px;border:2px solid var(--yellow)}
 
-/* MRP tables */
-.scroll{overflow-x:auto; border-radius:14px}
-table.mrp{border-collapse:separate; border-spacing:3px; width:100%; min-width:560px; font-size:14px}
-table.mrp th{font-weight:700; color:var(--ink); background:var(--c,var(--cyan)); padding:6px 8px; border-radius:8px; text-align:center; white-space:nowrap}
-table.mrp th.lbl{text-align:left; min-width:150px}
-table.mrp td{padding:0; background:rgba(255,255,255,.08); border-radius:8px; text-align:center; font-family:var(--mono); font-weight:700; height:38px; min-width:48px}
-table.mrp td.lbl{font-family:'Poppins',sans-serif; text-align:left; padding:0 10px; font-weight:600; font-size:13px; background:rgba(255,255,255,.14); white-space:nowrap}
-table.mrp td.zero{color:rgba(255,255,255,.28)}
-table.mrp td.stock{color:var(--yellow)}
-table.mrp td.late{background:rgba(255,77,94,.25); color:#ffd0d4}
+/* tables */
+.scroll{overflow-x:auto;border-radius:14px}
+table.mrp{border-collapse:separate;border-spacing:3px;width:100%;min-width:600px;font-size:14px}
+table.mrp th{font-weight:700;color:var(--ink);background:var(--c,var(--cyan));padding:6px 8px;border-radius:8px;text-align:center;white-space:nowrap}
+table.mrp th.lbl{text-align:left;min-width:140px}
+table.mrp th small{display:block;font-size:10px;font-weight:700;opacity:.8}
+table.mrp td{padding:0;background:rgba(255,255,255,.08);border-radius:8px;text-align:center;font-family:var(--mono);font-weight:700;height:38px;min-width:50px}
+table.mrp td.lbl{font-family:'Poppins',sans-serif;text-align:left;padding:0 10px;font-weight:600;font-size:13px;background:rgba(255,255,255,.14);white-space:nowrap}
+table.mrp td.zero{color:rgba(255,255,255,.28)}table.mrp td.stock{color:var(--yellow)}
 table.mrp tr.rel td:not(.lbl):not(.zero){color:var(--lime)}
-input.cell{width:100%; height:38px; border:2px solid transparent; background:rgba(255,255,255,.12); color:#fff; text-align:center; border-radius:8px; font:700 15px var(--mono); outline:0}
-input.cell:focus{border-color:var(--cyan); background:rgba(25,227,255,.15)}
-input.cell.ok{border-color:var(--lime); background:rgba(184,255,61,.2)}
-input.cell.bad{border-color:var(--red); background:rgba(255,77,94,.25); animation:shake .3s}
-input.cell.hint{border-color:var(--yellow); background:rgba(255,229,61,.25)}
+input.cell{width:100%;height:38px;border:2px solid transparent;background:rgba(255,255,255,.12);color:#fff;text-align:center;border-radius:8px;font:700 15px var(--mono);outline:0}
+input.cell:focus{border-color:var(--yellow);background:rgba(255,229,61,.15)}
+input.cell.ok{border-color:var(--lime);background:rgba(184,255,61,.2)}
+input.cell.bad{border-color:var(--red);background:rgba(255,77,94,.25);animation:shake .3s}
+input.cell.hint{border-color:var(--cyan);background:rgba(25,227,255,.25)}
 @keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
-.blk{border:2px solid var(--line); border-radius:20px; padding:14px 16px 16px; margin:0 0 16px; background:rgba(255,255,255,.05); position:relative}
-.blk.current{border-color:var(--cyan); box-shadow:0 0 0 4px rgba(25,227,255,.16)}
-.blk.solved{border-color:var(--lime)}
-.blk.locked{opacity:.5}
-.blk h3{margin:0 0 4px; display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-.fb{margin-top:10px; padding:10px 14px; border-radius:12px; font-size:14px; display:none}
-.fb.show{display:block}
-.fb.err{background:rgba(255,77,94,.18); border:1px solid var(--red)}
-.fb.good{background:rgba(184,255,61,.16); border:1px solid var(--lime)}
-.fb.info{background:rgba(255,229,61,.14); border:1px solid var(--yellow)}
-.badge{font:800 12px var(--mono); padding:3px 9px; border-radius:999px; background:var(--ink); color:var(--yellow); border:1px solid var(--yellow)}
-.score{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
-.score .num{font:800 30px var(--mono); color:var(--yellow)}
-.dots{display:flex; gap:6px}
-.dot{width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,.2)}
-.dot.on{background:var(--lime); box-shadow:0 0 10px var(--lime)}
-.dot.cur{background:var(--cyan); animation:pulse 1s infinite}
-@keyframes pulse{50%{transform:scale(1.4)}}
-details.how{background:rgba(255,229,61,.1); border:1px solid rgba(255,229,61,.5); border-radius:16px; padding:10px 16px; margin:0 0 18px}
-details.how summary{cursor:pointer; font-weight:700; color:var(--yellow)}
-.formula{font:700 15px var(--mono); background:var(--ink); border-radius:10px; padding:8px 12px; margin:8px 0; display:block; border-left:5px solid var(--pink)}
-.formula em{font-style:normal; color:var(--lime)}
+.blk{border:2px solid var(--line);border-radius:20px;padding:14px 16px 16px;margin:0 0 16px;background:rgba(255,255,255,.05)}
+.blk.current{border-color:var(--yellow);box-shadow:0 0 0 4px rgba(255,229,61,.16)}
+.blk.solved{border-color:var(--lime)}.blk.locked{opacity:.5}
+.blk h3{margin:0 0 4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{font:800 12px var(--mono);padding:3px 9px;border-radius:999px;background:var(--ink);color:var(--yellow);border:1px solid var(--yellow)}
+.alert{margin:6px 0 10px;padding:10px 14px;border-radius:14px;background:repeating-linear-gradient(45deg,rgba(255,77,94,.28),rgba(255,77,94,.28) 10px,rgba(255,77,94,.18) 10px,rgba(255,77,94,.18) 20px);border:2px solid var(--red);font-weight:600;animation:pop .5s}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+.fb{margin-top:10px;padding:10px 14px;border-radius:12px;font-size:14px;display:none}.fb.show{display:block}
+.fb.err{background:rgba(255,77,94,.18);border:1px solid var(--red)}.fb.good{background:rgba(184,255,61,.16);border:1px solid var(--lime)}.fb.info{background:rgba(25,227,255,.14);border:1px solid var(--cyan)}
+details.how{background:rgba(255,229,61,.1);border:1px solid rgba(255,229,61,.5);border-radius:16px;padding:10px 16px;margin:0 0 18px}
+details.how summary{cursor:pointer;font-weight:700;color:var(--yellow)}
+.formula{font:700 14px var(--mono);background:var(--ink);border-radius:10px;padding:8px 12px;margin:8px 0;display:block;border-left:5px solid var(--pink)}.formula em{font-style:normal;color:var(--lime)}
 
-/* Gantt */
-.gantt{overflow-x:auto; padding-bottom:6px}
-.ghead,.grow{display:grid; grid-template-columns:150px repeat(var(--n),minmax(46px,1fr)); min-width:calc(150px + var(--n)*46px)}
-.ghead div{font:700 12px var(--mono); text-align:center; color:var(--muted); padding:4px 0}
-.ghead div.late{color:var(--red)}
-.glabel{font-weight:700; font-size:13px; padding:4px 8px 4px 0; display:flex; align-items:center; gap:6px}
-.gcell{border-left:1px dashed rgba(255,255,255,.12); min-height:32px}
-.grow{border-top:1px solid rgba(255,255,255,.08); padding:3px 0}
-.bar{align-self:center; margin:2px 3px; height:26px; border-radius:8px; background:var(--c); color:var(--ink); font:800 12px var(--mono); display:flex; align-items:center; padding:0 8px; position:relative; z-index:2; transform-origin:left; animation:grow .6s both; animation-delay:calc(var(--d)*.5s); white-space:nowrap}
-.bar::after{content:""; position:absolute; right:-7px; top:50%; width:12px; height:12px; margin-top:-6px; border-radius:50%; background:#fff; border:3px solid var(--c)}
-.bar.late{background:repeating-linear-gradient(45deg,var(--red),var(--red) 8px,#9e1626 8px,#9e1626 16px); color:#fff}
-.bar.late::after{border-color:var(--red)}
-.pill{align-self:center; justify-self:center; z-index:2; font:800 12px var(--mono); background:var(--yellow); color:var(--ink); padding:3px 8px; border-radius:999px; animation:pop .5s both}
-@keyframes grow{from{transform:scaleX(0); opacity:0}to{transform:none; opacity:1}}
-.legend{display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--muted); margin-top:8px}
-.legend i{display:inline-block; width:12px; height:12px; border-radius:50%; background:#fff; border:3px solid var(--pink); vertical-align:-2px}
+/* gantt */
+.gantt{overflow-x:auto;padding-bottom:6px}
+.ghead,.grow{display:grid;grid-template-columns:150px repeat(var(--n),minmax(46px,1fr));min-width:calc(150px + var(--n)*46px)}
+.ghead div{font:700 12px var(--mono);text-align:center;color:var(--muted);padding:4px 0}
+.glabel{font-weight:700;font-size:13px;padding:4px 8px 4px 0;display:flex;align-items:center;gap:6px}
+.gcell{border-left:1px dashed rgba(255,255,255,.12);min-height:32px}.grow{border-top:1px solid rgba(255,255,255,.08);padding:3px 0}
+.bar2{align-self:center;margin:2px 3px;height:26px;border-radius:8px;background:var(--c);color:var(--ink);font:800 12px var(--mono);display:flex;align-items:center;padding:0 8px;position:relative;z-index:2;transform-origin:left;animation:grow .6s both;animation-delay:calc(var(--d)*.5s);white-space:nowrap}
+.bar2::after{content:"";position:absolute;right:-7px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:#fff;border:3px solid var(--c)}
+.pill{align-self:center;justify-self:center;z-index:2;font:800 12px var(--mono);background:var(--yellow);color:var(--ink);padding:3px 8px;border-radius:999px}
+@keyframes grow{from{transform:scaleX(0);opacity:0}to{transform:none;opacity:1}}
 
-/* KPI */
-.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:16px}
-.kpi{border-radius:16px; padding:12px 14px; color:var(--ink); background:var(--c)}
-.kpi b{display:block; font:800 28px var(--mono)}
-.kpi span{font-size:12px; font-weight:700}
-.warn{background:rgba(255,77,94,.18); border:1px solid var(--red); border-radius:14px; padding:10px 14px; margin:8px 0; font-size:14px}
-.okbox{background:rgba(184,255,61,.14); border:1px solid var(--lime); border-radius:14px; padding:10px 14px; margin:8px 0; font-size:14px}
-
-/* lab controls */
-.ctrl{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px}
-.ctl{border-radius:16px; padding:12px; background:rgba(255,255,255,.07); border:1px solid var(--line); border-top:5px solid var(--c)}
-.ctl label{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:13px; margin:5px 0}
-.num{width:76px; padding:5px 8px; border-radius:8px; border:2px solid var(--line); background:rgba(0,0,0,.25); color:#fff; font:700 14px var(--mono); text-align:center}
-.num:focus{outline:0; border-color:var(--cyan)}
-.pmprow{display:flex; gap:8px; flex-wrap:wrap}
-.pmprow label{display:flex; flex-direction:column; align-items:center; font:700 11px var(--mono); color:var(--muted); gap:3px}
-
-/* quiz */
-.qq{margin:0 0 14px}
-.opt{display:block; width:100%; text-align:left; margin:8px 0; padding:12px 14px; border-radius:14px; border:2px solid var(--line); background:rgba(255,255,255,.07); color:var(--text); font:600 15px 'Poppins',sans-serif; cursor:pointer; transition:.15s}
-.opt:hover{border-color:var(--cyan); transform:translateX(4px)}
-.opt.right{border-color:var(--lime); background:rgba(184,255,61,.22)}
-.opt.wrong{border-color:var(--red); background:rgba(255,77,94,.22)}
-.bar2{height:10px; border-radius:999px; background:rgba(255,255,255,.15); overflow:hidden}
-.bar2>i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--pink),var(--yellow),var(--lime)); transition:width .4s}
-
-/* theory */
-.era{display:flex; gap:10px; flex-wrap:wrap}
-.era div{flex:1; min-width:120px; background:var(--c); color:var(--ink); border-radius:16px; padding:10px 12px}
-.era b{font:800 22px var(--mono); display:block}
-.era span{font-size:12px; font-weight:700}
-ul.clean{margin:.3em 0; padding-left:1.1em}
-.pro{color:var(--lime)} .con{color:var(--pink)}
-canvas#confetti{position:fixed; inset:0; pointer-events:none; z-index:99}
-footer{text-align:center; color:var(--muted); font-size:12px; margin-top:30px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
-@media (max-width:600px){.nchip{min-width:96px; padding:6px 8px}.kids{gap:8px}}
+/* result */
+.big{font:800 clamp(44px,9vw,84px) var(--mono);color:var(--yellow);line-height:1}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.kpi{border-radius:16px;padding:10px 14px;color:var(--ink);background:var(--c)}.kpi b{display:block;font:800 26px var(--mono)}.kpi span{font-size:12px;font-weight:700}
+textarea.code{width:100%;min-height:92px;padding:12px;border-radius:12px;border:2px dashed var(--yellow);background:rgba(0,0,0,.45);color:var(--lime);font:600 13px var(--mono);word-break:break-all;resize:vertical}
+canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:99}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <canvas id="confetti"></canvas>
+<div class="ticker"><span>🔥 BLACK FRIDAY NOVAPLAY · −40% CONSOLE · −60% CONTROLLERE · STOCURI LIMITATE · PLANIFICĂ CA SĂ NU RĂMÂI FĂRĂ MARFĂ · 🔥 BLACK FRIDAY NOVAPLAY · −40% CONSOLE · −60% CONTROLLERE · STOCURI LIMITATE ·</span></div>
 <div class="wrap">
-  <header class="hero">
-    <h1 class="logo">⚡ MRP Arena</h1>
-    <p class="tag">Planifică. Lansează. Livrează la timp. — învață metoda MRP jucându-te</p>
-  </header>
-  <nav class="tabs" id="tabs">
-    <button class="tab on" data-t="misiuni">🎯 Misiuni</button>
-    <button class="tab" data-t="provocare">🎲 Provocare</button>
-    <button class="tab" data-t="lab">🧪 Laborator</button>
-    <button class="tab" data-t="teorie">📚 Teorie</button>
-    <button class="tab" data-t="quiz">🧠 Quiz</button>
-  </nav>
-
-  <section class="pane on" id="p-misiuni"></section>
-  <section class="pane" id="p-provocare"></section>
-  <section class="pane" id="p-lab"></section>
-  <section class="pane" id="p-teorie"></section>
-  <section class="pane" id="p-quiz"></section>
-  <footer>MRP Arena · material didactic · Management Operațional · ASE București</footer>
+  <h1 class="logo">🛒 Black Friday Rush</h1>
+  <p class="tag">Ești planner-ul NovaPlay. 20 de minute. Fără marfă, nu există vânzare.</p>
+  <div id="bar">
+    <div class="time" id="clock">20:00</div>
+    <div class="prog"><i id="progi"></i></div>
+    <div class="dots" id="dots"></div>
+    <span class="chip" id="who"></span>
+    <button class="btn ghost" id="finishNow">🏁 Predau acum</button>
+  </div>
+  <div id="app"></div>
 </div>
 
 <script id="engine">
-/* ================= MOTORUL MRP (funcții pure) ================= */
-function levels(s){
-  var lv={}; lv[s.root]=0; var changed=true, guard=0;
-  while(changed && guard++<30){
-    changed=false;
-    for(var p in s.bom){
-      if(lv[p]===undefined) continue;
-      s.bom[p].forEach(function(e){
-        var c=e[0], v=lv[p]+1;
-        if(lv[c]===undefined || lv[c]<v){ lv[c]=v; changed=true; }
-      });
-    }
-  }
-  return lv;
+/* ======== MOTOR MRP ======== */
+function levels(s){var lv={};lv[s.root]=0;var ch=true,g=0;while(ch&&g++<30){ch=false;for(var p in s.bom){if(lv[p]===undefined)continue;s.bom[p].forEach(function(e){var v=lv[p]+1;if(lv[e[0]]===undefined||lv[e[0]]<v){lv[e[0]]=v;ch=true;}});}}return lv;}
+function parentsOf(s,id){var r=[];for(var p in s.bom)s.bom[p].forEach(function(e){if(e[0]===id)r.push([p,e[1]]);});return r;}
+function sortedIds(s){var lv=levels(s),k=Object.keys(s.items);return k.sort(function(a,b){return lv[a]-lv[b]||k.indexOf(a)-k.indexOf(b);});}
+function mrp(s){var H=s.horizon,ids=sortedIds(s),res={};
+  ids.forEach(function(id){var it=s.items[id],gross={},t;
+    if(id===s.root){for(t in s.pmp)gross[t]=(gross[t]||0)+s.pmp[t];}
+    parentsOf(s,id).forEach(function(pe){var pr=res[pe[0]].rel;for(t in pr)gross[t]=(gross[t]||0)+pr[t]*pe[1];});
+    var ts=Object.keys(gross).map(Number),tmin=Math.min.apply(null,ts.concat([1])),onhand=it.stock,net={},rec={},rel={},proj={};
+    for(t=tmin;t<=H;t++){var g=gross[t]||0,use=Math.min(onhand,g),n=g-use;onhand-=use;proj[t]=onhand;if(n>0){net[t]=n;rec[t]=n;rel[t-it.lt]=(rel[t-it.lt]||0)+n;}}
+    res[id]={gross:gross,net:net,rec:rec,rel:rel,proj:proj};});
+  return res;}
+function critPath(s,id){id=id||s.root;var best=0;(s.bom[id]||[]).forEach(function(e){best=Math.max(best,critPath(s,e[0]));});return s.items[id].lt+best;}
+function lateList(s,R){var o=[];Object.keys(R).forEach(function(id){for(var t in R[id].rel){if(+t<1&&R[id].rel[t]>0)o.push({id:id,t:+t,q:R[id].rel[t]});}});return o;}
+/* ======== HASH + PRNG (identice în clasament.html) ======== */
+function cyrb53(str,seed){seed=seed||0;var h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(var i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
+  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0);}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+var SALT='NovaPlay-BF-2026';
+function normName(n){return String(n).trim().replace(/\s+/g,' ').toLowerCase();}
+function makeCode(p){var json=JSON.stringify(p);var b=btoa(unescape(encodeURIComponent(json))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  return 'BF1.'+b+'.'+cyrb53(json+SALT).toString(36);}
+function genBF(name){
+  var rng=mulberry32(cyrb53(normName(name))%4294967296);
+  function pk(a){return a[Math.floor(rng()*a.length)];}
+  var twist=3;
+  var items={
+    bundle:{name:'Pachet GamerBox',emoji:'🎁',lt:1,stock:pk([20,30,40,50]),kind:'Asamblat intern'},
+    consola:{name:'Consolă NovaPlay',emoji:'🎮',lt:2,stock:pk([40,60,80,100]),kind:'Fabricat intern'},
+    controller:{name:'Controller wireless',emoji:'🕹️',lt:1,stock:pk([100,150,200,250]),kind:'Cumpărat'},
+    cutie:{name:'Cutie cadou',emoji:'📦',lt:1,stock:pk([50,100,150]),kind:'Cumpărat'},
+    placa:{name:'Placă de bază',emoji:'🧩',lt:twist,stock:pk([30,50,70,90]),kind:'Cumpărat'},
+    carcasa:{name:'Carcasă',emoji:'🛡️',lt:pk([1,2]),stock:pk([40,60,80,120]),kind:'Cumpărat'}
+  };
+  return {id:'bf',root:'bundle',horizon:9,items:items,
+    bom:{bundle:[['consola',1],['controller',2],['cutie',1]],consola:[['placa',1],['carcasa',1]]},
+    pmp:{7:pk([100,150,200]),8:pk([300,400,500,600]),9:pk([150,200,250])},
+    twist:{id:'placa',was:2,msg:'⚠️ ALERTĂ FURNIZOR: producătorul plăcilor de bază anunță o întârziere. Durata de livrare crește de la <b>2</b> la <b>3 săptămâni</b>. Folosește noua valoare!'},
+    waves:{7:'Early Deals',8:'Black Friday',9:'Cyber Monday'}};
 }
-function parentsOf(s,id){
-  var r=[];
-  for(var p in s.bom) s.bom[p].forEach(function(e){ if(e[0]===id) r.push([p,e[1]]); });
-  return r;
-}
-function sortedIds(s){
-  var lv=levels(s); var keys=Object.keys(s.items);
-  return keys.sort(function(a,b){ return lv[a]-lv[b] || keys.indexOf(a)-keys.indexOf(b); });
-}
-/* Lot-for-lot, fără recepții programate. Stocul se consumă în primele perioade cu cerere. */
-function mrp(s){
-  var H=s.horizon, ids=sortedIds(s), res={};
-  ids.forEach(function(id){
-    var it=s.items[id], gross={}, t;
-    if(id===s.root){ for(t in s.pmp){ gross[t]=(gross[t]||0)+s.pmp[t]; } }
-    parentsOf(s,id).forEach(function(pe){
-      var pr=res[pe[0]].rel;
-      for(t in pr){ gross[t]=(gross[t]||0)+pr[t]*pe[1]; }
-    });
-    var ts=Object.keys(gross).map(Number); var tmin=Math.min.apply(null, ts.concat([1]));
-    var onhand=it.stock, net={}, rec={}, rel={}, proj={};
-    for(t=tmin; t<=H; t++){
-      var g=gross[t]||0, use=Math.min(onhand,g), n=g-use;
-      onhand-=use; proj[t]=onhand;
-      if(n>0){ net[t]=n; rec[t]=n; rel[t-it.lt]=(rel[t-it.lt]||0)+n; }
-    }
-    res[id]={gross:gross,net:net,rec:rec,rel:rel,proj:proj};
-  });
-  return res;
-}
-function critPath(s,id){
-  id=id||s.root; var kids=s.bom[id]||[], best=0;
-  kids.forEach(function(e){ best=Math.max(best,critPath(s,e[0])); });
-  return s.items[id].lt+best;
-}
-function lateList(s,R){
-  var out=[];
-  Object.keys(R).forEach(function(id){
-    for(var t in R[id].rel){ if(+t<1 && R[id].rel[t]>0) out.push({id:id,t:+t,q:R[id].rel[t]}); }
-  });
-  return out;
-}
-if(typeof module!=='undefined'){ module.exports={levels:levels,mrp:mrp,critPath:critPath,lateList:lateList,sortedIds:sortedIds}; }
+if(typeof module!=='undefined'){module.exports={mrp:mrp,genBF:genBF,makeCode:makeCode,cyrb53:cyrb53,critPath:critPath,sortedIds:sortedIds};}
 </script>
 
 <script>
-/* ================= DATE: SCENARII ================= */
-var PALETTE=['#ff3d9a','#19e3ff','#b8ff3d','#ff9f1c','#8b5cff','#ffe53d','#ff6b6b','#4dffb8','#7aa2ff'];
-var SCEN={
-  masini:{
-    id:'masini', title:'Fabrica de mașini', tag:'Misiunea 1 · exercițiul din curs', emoji:'🚗', c:'#ff3d9a', horizon:5,
-    story:'O companie care produce mașini a primit două comenzi: una pentru <b>100 de mașini</b> (livrare la începutul săptămânii <b>3</b>) și una pentru <b>150 de mașini</b> (livrare la începutul săptămânii <b>5</b>). Fiecare mașină = <b>1 baterie + 8 plăcuțe de frână</b>. Bateria se produce în companie (asamblarea durează 1 săptămână), plăcuțele se comandă (livrare în 1 săptămână). În stoc: <b>20 mașini, 30 baterii, 100 plăcuțe</b>. Determină mărimea și momentul lansărilor de comenzi, ca să livrezi la timp.',
-    root:'masina',
-    items:{
-      masina:{name:'Mașină',emoji:'🚗',lt:1,stock:20,kind:'Produs final'},
-      baterie:{name:'Baterie',emoji:'🔋',lt:1,stock:30,kind:'Fabricat intern'},
-      placute:{name:'Plăcuțe de frână',emoji:'🛑',lt:1,stock:100,kind:'Cumpărat'}
-    },
-    bom:{masina:[['baterie',1],['placute',8]]},
-    pmp:{3:100,5:150}
-  },
-  scutere:{
-    id:'scutere', title:'VoltRider — scutere electrice', tag:'Misiunea 2 · BOM pe 3 niveluri', emoji:'🛴', c:'#19e3ff', horizon:10,
-    story:'Startup-ul <b>VoltRider</b> a vândut <b>40 de scutere electrice</b> pentru săptămâna <b>6</b> și <b>60</b> pentru săptămâna <b>9</b>. Un scuter = <b>1 motor + 1 pachet baterie + 2 roți</b>. Motorul = 4 magneți + 1 bobină; bateria = 10 celule Li-ion; roata = 1 anvelopă + 1 jantă. Fiecare articol are propriul timp de execuție/livrare și stoc (vezi arborele). Atenție: lead time-urile se adună pe nivelurile BOM — verifică dacă te încadrezi!',
-    root:'scuter',
-    items:{
-      scuter:{name:'Scuter electric',emoji:'🛴',lt:1,stock:10,kind:'Produs final'},
-      motor:{name:'Motor',emoji:'⚙️',lt:2,stock:5,kind:'Fabricat intern'},
-      baterie:{name:'Pachet baterie',emoji:'🔋',lt:1,stock:20,kind:'Fabricat intern'},
-      roata:{name:'Roată',emoji:'🛞',lt:1,stock:30,kind:'Fabricat intern'},
-      magnet:{name:'Magneți',emoji:'🧲',lt:1,stock:40,kind:'Cumpărat'},
-      bobina:{name:'Bobină',emoji:'🌀',lt:2,stock:0,kind:'Cumpărat'},
-      celule:{name:'Celule Li-ion',emoji:'⚡',lt:3,stock:100,kind:'Cumpărat'},
-      anvelopa:{name:'Anvelopă',emoji:'⚫',lt:1,stock:20,kind:'Cumpărat'},
-      janta:{name:'Jantă',emoji:'⭕',lt:2,stock:10,kind:'Cumpărat'}
-    },
-    bom:{scuter:[['motor',1],['baterie',1],['roata',2]], motor:[['magnet',4],['bobina',1]], baterie:[['celule',10]], roata:[['anvelopa',1],['janta',1]]},
-    pmp:{6:40,9:60}
-  }
-};
-var WHATIF={
-  masini:[
-    {label:'⏩ Clientul avansează comanda a 2-a la săpt. 4', f:function(s){s.pmp={3:100,4:150};}},
-    {label:'🐢 Furnizorul de plăcuțe: 3 săpt.', f:function(s){s.items.placute.lt=3;}},
-    {label:'📦 Stoc baterii = 0', f:function(s){s.items.baterie.stock=0;}},
-    {label:'🔥 Cererea se dublează', f:function(s){for(var t in s.pmp)s.pmp[t]*=2;}}
-  ],
-  scutere:[
-    {label:'⏰ Livrare cerută în săpt. 4', f:function(s){s.pmp={4:40,9:60};}},
-    {label:'🐌 Celule Li-ion: 5 săpt.', f:function(s){s.items.celule.lt=5;}},
-    {label:'🧰 Stoc motoare = 60', f:function(s){s.items.motor.stock=60;}},
-    {label:'🔥 Cererea se dublează', f:function(s){for(var t in s.pmp)s.pmp[t]*=2;}}
-  ]
-};
-var THEMES=[
-  {root:['Dronă','🚁'],a:['Baterie LiPo','🔋'],b:['Elice','🌀'],c:['Celule','⚡']},
-  {root:['Consolă gaming','🎮'],a:['Placă de bază','🧩'],b:['Butoane controller','🔘'],c:['Cip grafic','💾']},
-  {root:['Bicicletă electrică','🚲'],a:['Motor hub','⚙️'],b:['Spițe','📍'],c:['Magneți','🧲']},
-  {root:['Smartphone','📱'],a:['Modul cameră','📷'],b:['Șuruburi','🔩'],c:['Senzor','🔍']},
-  {root:['Skateboard electric','🛹'],a:['Controler','🎛️'],b:['Roți','🛞'],c:['Condensatori','🔌']}
-];
-
-/* ================= UTILITARE ================= */
-function $(sel,root){return (root||document).querySelector(sel);}
-function $$(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel));}
-function clone(o){return JSON.parse(JSON.stringify(o));}
-function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function shuffle(a){a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a;}
+var PALETTE=['#ffe53d','#ff2d95','#19e3ff','#b8ff3d','#ff9f1c','#8b5cff'];
+var LIMIT=1200; // 20 minute
+/* Lipește între ghilimele URL-ul Web App din Google Apps Script (se termină în /exec).
+   Lăsat gol = fără trimitere automată; studenții îți trimit manual codul. */
+var SHEET_URL='https://script.google.com/macros/s/AKfycbw60vw9-Mofl7kLEhsu9Bx_5JQoX-qKxug635ZwmVRxaUGtbkqNwIhe4b8eV51R_8c/exec';
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
 function colorOf(s,id){return PALETTE[Object.keys(s.items).indexOf(id)%PALETTE.length];}
-function rank(p){ return p<40?'Stagiar 🐣':p<70?'Planner Junior 🚀':p<90?'Planner Pro ⚡':'MRP Master 👑'; }
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function mmss(sec){sec=Math.max(0,Math.round(sec));var m=Math.floor(sec/60),s=sec%60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
+function rank(p){return p<40?'Stagiar 🐣':p<70?'Planner Junior 🚀':p<90?'Planner Pro ⚡':'MRP Master 👑';}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
 
 function confetti(){
-  var cv=$('#confetti'); if(!cv||window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var ctx=cv.getContext&&cv.getContext('2d'); if(!ctx) return;
-  cv.width=innerWidth; cv.height=innerHeight;
-  var ps=[]; for(var i=0;i<160;i++) ps.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*4,vy:2+Math.random()*5,r:4+Math.random()*6,c:PALETTE[i%PALETTE.length],a:Math.random()*6});
-  var t0=Date.now();
-  (function f(){
-    ctx.clearRect(0,0,cv.width,cv.height);
-    ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=.15;ctx.fillStyle=p.c;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);ctx.restore();});
-    if(Date.now()-t0<2800) requestAnimationFrame(f); else ctx.clearRect(0,0,cv.width,cv.height);
-  })();
+  var cv=$('#confetti');if(!cv||(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches))return;
+  var ctx=cv.getContext&&cv.getContext('2d');if(!ctx)return;cv.width=innerWidth;cv.height=innerHeight;
+  var ps=[];for(var i=0;i<170;i++)ps.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*4,vy:2+Math.random()*5,r:4+Math.random()*6,c:PALETTE[i%PALETTE.length],a:Math.random()*6});
+  var t0=Date.now();(function f(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=.15;ctx.fillStyle=p.c;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);ctx.restore();});
+    if(Date.now()-t0<2800)requestAnimationFrame(f);else ctx.clearRect(0,0,cv.width,cv.height);})();
 }
 
-/* ================= COMPONENTE VIZUALE ================= */
-function treeHTML(s,id,qty){
-  var it=s.items[id], kids=s.bom[id]||[];
-  return '<div class="node"><div class="nchip" style="--c:'+colorOf(s,id)+'"><b>'+it.emoji+' '+it.name+'</b><small>durată '+it.lt+' săpt · stoc '+it.stock+'</small>'+(qty?'<span class="q">×'+qty+'</span>':'')+'</div>'+
-    (kids.length?'<div class="kids">'+kids.map(function(e){return treeHTML(s,e[0],e[1]);}).join('')+'</div>':'')+'</div>';
-}
+function treeHTML(s,id,qty){var it=s.items[id],kids=s.bom[id]||[];
+  return '<div class="node"><div class="nchip" style="--c:'+colorOf(s,id)+'"><b>'+it.emoji+' '+it.name+'</b><small>stoc '+it.stock+'</small>'+(qty?'<span class="qty">×'+qty+'</span>':'')+'</div>'+(kids.length?'<div class="kids">'+kids.map(function(e){return treeHTML(s,e[0],e[1]);}).join('')+'</div>':'')+'</div>';}
 function pmpHTML(s){
   var h='<div class="scroll"><table class="mrp"><tr><th class="lbl" style="--c:#ffe53d">Săptămâna</th>';
-  for(var t=1;t<=s.horizon;t++) h+='<th style="--c:#ffe53d">'+t+'</th>';
-  h+='</tr><tr><td class="lbl">PMP · cantitate de livrat</td>';
-  for(t=1;t<=s.horizon;t++){var v=s.pmp[t]; h+='<td class="'+(v?'':'zero')+'">'+(v||'·')+'</td>';}
-  return h+'</tr></table></div>';
-}
-function howHTML(){
-  return '<details class="how"><summary>🧭 Cum calculez? (formulele de bază)</summary>'+
-  '<span class="formula">1) <em>Cerere brută</em> a produsului finit = din PMP. La componente = <em>lansarea părintelui × cantitatea din BOM</em>.</span>'+
-  '<span class="formula">2) <em>Cerere netă</em> = cerere brută − stoc disponibil (stocul se consumă o singură dată, în primele săptămâni cu cerere).</span>'+
-  '<span class="formula">3) <em>Lansare planificată</em> în săptămâna (t − durata de execuție) = cererea netă din săptămâna t.</span>'+
-  '<span class="formula">4) Pornește de la nivelul 0 (produs final) și coboară nivel cu nivel în BOM.</span>'+
-  '<div class="muted" style="font-size:13px">Exemplu: ai nevoie de 80 de piese în săpt. 3, durata este 1 săpt. → lansezi 80 în săpt. 2. Dacă lansarea ar cădea înainte de săpt. 1, ai o problemă: lead time-ul total e prea mare.</div></details>';
-}
+  for(var t=1;t<=s.horizon;t++)h+='<th style="--c:#ffe53d">'+t+(s.waves[t]?'<small>'+s.waves[t]+'</small>':'')+'</th>';
+  h+='</tr><tr><td class="lbl">PMP · bundle-uri de livrat</td>';
+  for(t=1;t<=s.horizon;t++){var v=s.pmp[t];h+='<td class="'+(v?'':'zero')+'">'+(v||'·')+'</td>';}
+  return h+'</tr></table></div>';}
+function howHTML(){return '<details class="how"><summary>🧭 Formulele (le poți deschide oricând)</summary>'+
+  '<span class="formula">Cerere brută: produs final = din PMP · componentă = <em>lansarea părintelui × cantitatea din BOM</em></span>'+
+  '<span class="formula">Cerere netă = <em>cerere brută − stoc disponibil</em> (stocul se consumă o singură dată, în primele săptămâni cu cerere)</span>'+
+  '<span class="formula">Lansare în săpt. <em>t − durată</em> = cererea netă din săpt. <em>t</em></span></details>';}
 
-function ganttHTML(s,R,animate){
-  var H=s.horizon, lv=levels(s), ids=sortedIds(s);
-  var late=lateList(s,R).length>0, n=H+(late?1:0);
+function ganttHTML(s,R){
+  var H=s.horizon,lv=levels(s),ids=sortedIds(s),late=lateList(s,R).length>0,n=H+(late?1:0);
   function col(t){return t<1?2:(late?2:1)+t;}
-  var h='<div class="gantt" style="--n:'+n+'"><div class="ghead"><div></div>'+(late?'<div class="late">≤0 ⚠</div>':'');
-  for(var t=1;t<=H;t++) h+='<div>S'+t+'</div>';
-  h+='</div>';
-  // rând livrări
-  h+='<div class="grow"><div class="glabel" style="grid-row:1">🚚 Livrări clienți</div>';
-  for(var c=2;c<=n+1;c++) h+='<div class="gcell" style="grid-column:'+c+';grid-row:1"></div>';
-  for(t=1;t<=H;t++) if(s.pmp[t]) h+='<div class="pill" style="grid-column:'+col(t)+';grid-row:1">'+s.pmp[t]+'</div>';
-  h+='</div>';
-  ids.forEach(function(id){
-    var it=s.items[id], rel=R[id].rel, bars=[];
-    Object.keys(rel).map(Number).sort(function(a,b){return a-b;}).forEach(function(t){
-      if(rel[t]>0){
-        var rc=t+it.lt, a=col(t), b=rc<1?3:col(rc); if(b<=a) b=a+1;
-        bars.push({t:t,rc:rc,q:rel[t],a:a,b:b});
-      }
-    });
-    var lanes=[]; bars.forEach(function(br){
-      var l=0; while(lanes[l]!==undefined && lanes[l]>br.a) l++;
-      br.lane=l; lanes[l]=br.b;
-    });
+  var h='<div class="gantt" style="--n:'+n+'"><div class="ghead"><div></div>'+(late?'<div>≤0</div>':'');
+  for(var t=1;t<=H;t++)h+='<div>S'+t+'</div>';h+='</div><div class="grow"><div class="glabel" style="grid-row:1">🚚 Livrări</div>';
+  for(var c=2;c<=n+1;c++)h+='<div class="gcell" style="grid-column:'+c+';grid-row:1"></div>';
+  for(t=1;t<=H;t++)if(s.pmp[t])h+='<div class="pill" style="grid-column:'+col(t)+';grid-row:1">'+s.pmp[t]+'</div>';h+='</div>';
+  ids.forEach(function(id){var it=s.items[id],rel=R[id].rel,bars=[];
+    Object.keys(rel).map(Number).sort(function(a,b){return a-b;}).forEach(function(t){if(rel[t]>0){var rc=t+it.lt,a=col(t),b=rc<1?3:col(rc);if(b<=a)b=a+1;bars.push({q:rel[t],a:a,b:b,t:t,rc:rc});}});
+    var lanes=[];bars.forEach(function(br){var l=0;while(lanes[l]!==undefined&&lanes[l]>br.a)l++;br.lane=l;lanes[l]=br.b;});
     var L=Math.max(1,lanes.length);
     h+='<div class="grow"><div class="glabel" style="grid-row:1/span '+L+';color:'+colorOf(s,id)+'">'+it.emoji+' '+it.name+'</div>';
-    for(var ln=1;ln<=L;ln++) for(var cc=2;cc<=n+1;cc++) h+='<div class="gcell" style="grid-column:'+cc+';grid-row:'+ln+'"></div>';
-    bars.forEach(function(br){
-      h+='<div class="bar'+(br.t<1?' late':'')+'" title="Lansare S'+br.t+' → recepție S'+br.rc+'" style="--c:'+colorOf(s,id)+';--d:'+lv[id]+';grid-column:'+br.a+'/'+br.b+';grid-row:'+(br.lane+1)+(animate?'':';animation:none')+'">'+(br.t<1?'⚠ ':'')+br.q+'</div>';
-    });
-    h+='</div>';
-  });
-  h+='</div><div class="legend"><span><i></i> = momentul recepției (când ai nevoie de articol)</span><span>Bara începe în săptămâna lansării comenzii</span></div>';
-  return h;
-}
+    for(var ln=1;ln<=L;ln++)for(var cc=2;cc<=n+1;cc++)h+='<div class="gcell" style="grid-column:'+cc+';grid-row:'+ln+'"></div>';
+    bars.forEach(function(br){h+='<div class="bar2" title="Lansare S'+br.t+' → recepție S'+br.rc+'" style="--c:'+colorOf(s,id)+';--d:'+lv[id]+';grid-column:'+br.a+'/'+br.b+';grid-row:'+(br.lane+1)+'">'+br.q+'</div>';});
+    h+='</div>';});
+  return h+'</div>';}
 
-/* ================= EXERCIȚIU (misiuni + provocare) ================= */
-function Exercise(s, host, label){
-  var R=mrp(s), ids=sortedIds(s), lv=levels(s), H=s.horizon;
-  var st={cur:0, pts:[], fails:{}, hints:{}, done:false};
-  ids.forEach(function(id){st.fails[id]=0; st.hints[id]=0;});
-  host.innerHTML='';
-  var top=document.createElement('div'); host.appendChild(top);
-  var box=document.createElement('div'); host.appendChild(box);
-  var fin=document.createElement('div'); host.appendChild(fin);
-
-  function exp(id,row,t){var r=R[id]; var m=row==='gross'?r.gross:row==='net'?r.net:r.rel; return m[t]||0;}
-  function maxPts(){return ids.length*100;}
-  function total(){return st.pts.reduce(function(a,b){return a+(b||0);},0);}
-
-  function topHTML(){
-    var dots=ids.map(function(id,i){return '<span class="dot '+(i<st.pts.length?'on':i===st.cur&&!st.done?'cur':'')+'"></span>';}).join('');
-    var pct=Math.round(100*total()/maxPts());
-    return '<div class="card score"><div><div class="muted" style="font-size:12px">SCOR</div><div class="num">'+total()+' <span class="muted" style="font-size:14px">/ '+maxPts()+'</span></div></div>'+
-      '<div class="dots">'+dots+'</div><div class="chip">'+(st.pts.length?rank(pct):'Gata de start?')+'</div></div>'+
-      '<div class="grid2"><div class="card"><h3>🌳 Lista de materiale (BOM)</h3><div class="tree">'+treeHTML(s,s.root,0)+'</div></div>'+
-      '<div class="card"><h3>📅 Planul master de producție (PMP)</h3>'+pmpHTML(s)+'<p class="muted" style="font-size:13px;margin:8px 0 0">Completează tabelele de sus în jos: nivelul 0 întâi, apoi componentele.</p></div></div>'+howHTML();
-  }
-
-  function blockHTML(id,i){
-    var it=s.items[id], status=st.pts[i]!==undefined?'solved':(i===st.cur?'current':'locked');
+/* ================= APLICAȚIA ================= */
+var App={
+  name:'',group:'',s:null,R:null,ids:[],lv:null,st:null,t0:0,timer:null,finished:false,
+  intro:function(){
+    $('#bar').style.display='none';
+    $('#app').innerHTML='<div class="grid2"><div class="card"><h2>📣 Misiunea ta</h2>'+
+      '<p><b>NovaPlay</b> vinde console de gaming. Pentru Black Friday a lansat <span class="sale">PACHETUL GAMERBOX</span> = <b>1 consolă + 2 controllere wireless + 1 cutie cadou</b>. Pre-comenzile vin în 3 valuri: <b>Early Deals</b> (S7), <b>Black Friday</b> (S8) și <b>Cyber Monday</b> (S9).</p>'+
+      '<p>Pornești de la stocurile actuale. Calculează <b>ce, cât și când</b> lansezi (producție sau aprovizionare), astfel încât toate livrările să fie la timp. Tabelele MRP se completează de sus în jos; pe parcurs pot apărea alerte de la furnizori.</p>'+
+      '<ul class="rules"><li>⏱ <b>20 de minute</b> din momentul Start. Când expiră, predarea e automată.</li><li>🎯 Scor: până la <b>100 puncte / articol</b> (−10 per verificare greșită, −15 per indiciu, 0 dacă ceri soluția).</li><li>⚡ Bonus de timp (max 150 p) doar dacă termini toate cele 6 articole, proporțional cu acuratețea.</li><li>🔢 Cifrele tale sunt <b>diferite de ale colegilor</b>, deci nu are rost să copiezi.</li></ul></div>'+
+      '<div class="card"><h2>🚀 Intră în joc</h2><label class="f" for="nm">Nume și prenume (exact cum ești în catalog)</label><input class="txt" id="nm" maxlength="60" autocomplete="name" placeholder="ex. Ionescu Maria">'+
+      '<label class="f" for="gr">Grupa / seria</label><input class="txt" id="gr" maxlength="20" placeholder="ex. 1042">'+
+      '<p class="muted" style="font-size:13px">Numele generează scenariul tău. Dacă îl scrii diferit, vei primi alte cifre. Nu da refresh în timpul jocului: cronometrul continuă.</p>'+
+      '<div class="row"><button class="btn" id="go">▶ START</button></div><div id="err" class="muted" style="margin-top:8px;color:var(--red)"></div></div></div>'+
+      '<div class="card"><h3>🌳 Cum arată un pachet GamerBox (structura e aceeași pentru toți)</h3><div class="tree" id="demoTree"></div></div>';
+    var demo=genBF('exemplu');$('#demoTree').innerHTML=treeHTML(demo,demo.root,0);
+    $('#go').onclick=App.start;
+    $('#nm').addEventListener('keydown',function(e){if(e.key==='Enter')$('#gr').focus();});
+    $('#gr').addEventListener('keydown',function(e){if(e.key==='Enter')App.start();});
+  },
+  start:function(){
+    var nm=$('#nm').value.trim().replace(/\s+/g,' '),gr=$('#gr').value.trim();
+    if(nm.length<5||nm.indexOf(' ')<0){$('#err').textContent='Scrie numele complet (nume și prenume).';return;}
+    App.name=nm;App.group=gr;
+    var key='bf_'+cyrb53(normName(nm)).toString(36);App.key=key;
+    var saved=store(key+'_res');
+    if(saved){App.showSaved(JSON.parse(saved));return;}
+    App.s=genBF(nm);App.R=mrp(App.s);App.ids=sortedIds(App.s);App.lv=levels(App.s);
+    App.st={cur:0,pts:[],fails:{},hints:{},shown:{}};App.ids.forEach(function(id){App.st.fails[id]=0;App.st.hints[id]=0;});
+    var t0=+store(key+'_t0');if(!t0||isNaN(t0)||Date.now()-t0>LIMIT*1000+60000){t0=Date.now();store(key+'_t0',String(t0));}
+    App.t0=t0;App.finished=false;
+    $('#who').textContent='👤 '+nm;$('#bar').style.display='flex';
+    $('#finishNow').onclick=function(){if(confirm('Predai acum? Articolele nerezolvate primesc 0 puncte.'))App.finish();};
+    App.render();clearInterval(App.timer);App.timer=setInterval(App.tick,250);App.tick();
+  },
+  elapsed:function(){return Math.min(LIMIT,(Date.now()-App.t0)/1000);},
+  tick:function(){
+    if(App.finished)return;var e=(Date.now()-App.t0)/1000,rem=LIMIT-e,el=$('#clock');
+    el.textContent=mmss(rem);el.className='time'+(rem<60?' crit':rem<300?' warn':'');
+    $('#progi').style.width=Math.max(0,100*rem/LIMIT)+'%';
+    if(rem<=0)App.finish();
+  },
+  exp:function(id,row,t){var r=App.R[id];var m=row==='gross'?r.gross:row==='net'?r.net:r.rel;return m[t]||0;},
+  blockHTML:function(id,i){
+    var s=App.s,st=App.st,it=s.items[id],H=s.horizon;
+    var status=st.pts[i]!==undefined?'solved':(i===st.cur?'current':'locked');
     var parents=parentsOf(s,id).map(function(p){return s.items[p[0]].name+' ×'+p[1];}).join(', ');
-    var h='<div class="blk '+status+'" id="blk-'+id+'"><h3 style="color:'+colorOf(s,id)+'">'+it.emoji+' '+it.name+
-      ' <span class="badge">Nivel '+lv[id]+'</span> <span class="badge">durată '+it.lt+' săpt</span> <span class="badge">stoc '+it.stock+'</span> <span class="chip" style="color:var(--text)">'+it.kind+'</span></h3>'+
-      (parents?'<div class="muted" style="font-size:13px;margin-bottom:6px">Intră în: '+parents+' (cantitate din BOM)</div>':'<div class="muted" style="font-size:13px;margin-bottom:6px">Produs final — cererea vine din PMP.</div>');
-    if(status==='locked') return h+'<div class="muted">🔒 Rezolvă mai întâi articolul de deasupra.</div></div>';
-    var editable=status==='current';
+    var h='<div class="blk '+status+'" id="blk-'+id+'"><h3 style="color:'+colorOf(s,id)+'">'+it.emoji+' '+it.name;
+    if(status!=='locked')h+=' <span class="badge">Nivel '+App.lv[id]+'</span> <span class="badge">durată '+it.lt+' săpt</span> <span class="badge">stoc '+it.stock+'</span> <span class="chip" style="color:var(--text)">'+it.kind+'</span>';
+    h+='</h3>';
+    if(status==='locked')return h+'<div class="muted">🔒 Rezolvă mai întâi articolul de deasupra.</div></div>';
+    if(s.twist&&s.twist.id===id)h+='<div class="alert">'+s.twist.msg+'</div>';
+    h+=parents?'<div class="muted" style="font-size:13px;margin-bottom:6px">Intră în: '+parents+'</div>':'<div class="muted" style="font-size:13px;margin-bottom:6px">Produs final — cererea vine din PMP.</div>';
+    var ed=status==='current';
     h+='<div class="scroll"><table class="mrp"><tr><th class="lbl" style="--c:'+colorOf(s,id)+'">Săptămâna</th>';
-    for(var t=1;t<=H;t++) h+='<th style="--c:'+colorOf(s,id)+'">'+t+'</th>';
-    h+='</tr>';
+    for(var t=1;t<=H;t++)h+='<th style="--c:'+colorOf(s,id)+'">'+t+'</th>';h+='</tr>';
     [['gross','Cerere brută'],['stock','Stoc inițial'],['net','Cerere netă'],['rel','Lansare planificată']].forEach(function(r){
       h+='<tr class="'+(r[0]==='rel'?'rel':'')+'"><td class="lbl">'+r[1]+'</td>';
       for(var t=1;t<=H;t++){
-        if(r[0]==='stock'){ h+='<td class="stock '+(t===1?'':'zero')+'">'+(t===1?it.stock:'·')+'</td>'; continue; }
-        var v=exp(id,r[0],t);
-        if(r[0]==='gross' && id===s.root){ h+='<td class="'+(v?'':'zero')+'">'+(v||'·')+'</td>'; continue; }
-        if(!editable){ h+='<td class="'+(v?'':'zero')+'">'+(v||'·')+'</td>'; continue; }
+        if(r[0]==='stock'){h+='<td class="stock '+(t===1?'':'zero')+'">'+(t===1?it.stock:'·')+'</td>';continue;}
+        var v=App.exp(id,r[0],t);
+        if((r[0]==='gross'&&id===s.root)||!ed){h+='<td class="'+(v?'':'zero')+'">'+(v||'·')+'</td>';continue;}
         h+='<td><input class="cell" inputmode="numeric" maxlength="6" autocomplete="off" data-id="'+id+'" data-row="'+r[0]+'" data-t="'+t+'" aria-label="'+r[1]+' săptămâna '+t+'"></td>';
-      }
-      h+='</tr>';
-    });
+      }h+='</tr>';});
     h+='</table></div>';
-    if(editable){
-      h+='<div class="row" style="margin-top:12px"><button class="btn" data-act="check">✅ Verifică</button><button class="btn violet" data-act="hint">💡 Indiciu (−15)</button><button class="btn ghost" data-act="solve">👁 Arată soluția (0 p)</button></div><div class="fb"></div>';
-    }
+    if(ed)h+='<div class="row" style="margin-top:12px"><button class="btn" data-act="check">✅ Verifică</button><button class="btn violet" data-act="hint">💡 Indiciu (−15)</button><button class="btn ghost" data-act="solve">👁 Arată soluția (0 p)</button></div><div class="fb"></div>';
     return h+'</div>';
-  }
-
-  function render(){
-    top.innerHTML=topHTML();
-    box.innerHTML=ids.map(blockHTML).join('');
-    bind();
-    if(st.done) showFinal();
-  }
-
-  function cellsOf(id){return $$('#blk-'+id+' input.cell', box);}
-  function readVal(inp){var v=inp.value.trim(); return v===''?0:Number(v);}
-  function feedback(id,kind,html){var fb=$('#blk-'+id+' .fb',box); if(!fb) return; fb.className='fb show '+kind; fb.innerHTML=html;}
-
-  function diagnose(id){
-    var it=s.items[id], cells=cellsOf(id), rows=['gross','net','rel'];
-    for(var k=0;k<rows.length;k++){
-      var row=rows[k], rc=cells.filter(function(c){return c.dataset.row===row;});
-      var wrong=rc.filter(function(c){return readVal(c)!==exp(id,row,+c.dataset.t);});
-      if(!wrong.length) continue;
-      if(row==='gross'){
-        return '❌ <b>Cerere brută</b>: pentru o componentă, ea vine din <b>lansările părintelui</b> înmulțite cu cantitatea din BOM. Uită-te la rândul „Lansare planificată” de deasupra și la factorul ×q.';
-      }
-      if(row==='net'){
-        var forgot=wrong.some(function(c){return readVal(c)===exp(id,'gross',+c.dataset.t) && exp(id,'gross',+c.dataset.t)>0 && it.stock>0;});
-        if(forgot) return '❌ <b>Cerere netă</b>: ai copiat cererea brută. Nu ai scăzut <b>stocul inițial ('+it.stock+')</b>. Stocul se consumă o singură dată — în prima săptămână cu cerere, iar restul (dacă mai rămâne) în următoarea.';
-        return '❌ <b>Cerere netă</b> = cerere brută − stoc disponibil. Verifică dacă stocul a fost deja consumat într-o săptămână anterioară.';
-      }
-      var got=rc.map(readVal).filter(function(v){return v>0;}).sort().join(','), want=rc.map(function(c){return exp(id,'rel',+c.dataset.t);}).filter(function(v){return v>0;}).sort().join(',');
-      if(got===want && got!=='') return '❌ <b>Lansare</b>: cantitățile sunt corecte, dar <b>momentul</b> nu. Comanda se lansează cu <b>'+it.lt+' săpt. înainte</b> de săptămâna în care ai nevoie de articol.';
-      return '❌ <b>Lansare</b>: ia cererea netă din fiecare săptămână t și pune-o în săptămâna <b>t − '+it.lt+'</b> (durata de execuție a articolului).';
-    }
+  },
+  render:function(){
+    var s=App.s,st=App.st;
+    $('#dots').innerHTML=App.ids.map(function(id,i){return '<span class="dot '+(st.pts[i]!==undefined?'on':i===st.cur?'cur':'')+'"></span>';}).join('');
+    var total=st.pts.reduce(function(a,b){return a+(b||0);},0);
+    var top=$('#app').firstChild&&$('#app').dataset.built==='1'?null:1;
+    $('#app').dataset.built='1';
+    $('#app').innerHTML='<div class="card" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div><div class="muted" style="font-size:12px">PUNCTE</div><div style="font:800 30px var(--mono);color:var(--yellow)">'+total+' <span class="muted" style="font-size:14px">/ '+App.ids.length*100+'</span></div></div><div class="muted" style="font-size:14px">🎁 Pachetul GamerBox · livrări: '+Object.keys(s.pmp).map(function(t){return 'S'+t+' ('+s.waves[t]+')';}).join(' · ')+'</div></div>'+
+      '<div class="card"><h3>📅 PMP — cererea de bundle-uri pe săptămână</h3>'+pmpHTML(s)+'</div>'+
+      '<div class="card"><h3>🌳 Lista de materiale (BOM)</h3><div class="tree" style="display:flex;justify-content:center">'+treeHTML(s,s.root,0)+'</div></div>'+howHTML()+
+      '<div id="blocks">'+App.ids.map(function(id,i){return App.blockHTML(id,i);}).join('')+'</div>';
+    App.bind();
+  },
+  cells:function(id){return $$('#blk-'+id+' input.cell');},
+  val:function(inp){var v=inp.value.trim();return v===''?0:Number(v);},
+  fb:function(id,kind,html){var f=$('#blk-'+id+' .fb');if(f){f.className='fb show '+kind;f.innerHTML=html;}},
+  diagnose:function(id){
+    var it=App.s.items[id],cells=App.cells(id),rows=['gross','net','rel'];
+    for(var k=0;k<3;k++){var row=rows[k],rc=cells.filter(function(c){return c.dataset.row===row;});
+      var wrong=rc.filter(function(c){return App.val(c)!==App.exp(id,row,+c.dataset.t);});if(!wrong.length)continue;
+      if(row==='gross')return '❌ <b>Cerere brută</b>: pentru o componentă vine din <b>lansările părintelui</b> × cantitatea din BOM. Uită-te la rândul „Lansare planificată” de deasupra.';
+      if(row==='net'){var forgot=wrong.some(function(c){var g=App.exp(id,'gross',+c.dataset.t);return App.val(c)===g&&g>0&&it.stock>0;});
+        return forgot?'❌ <b>Cerere netă</b>: ai copiat cererea brută. Nu ai scăzut <b>stocul ('+it.stock+')</b>; stocul se consumă o singură dată, în primele săptămâni cu cerere.':'❌ <b>Cerere netă</b> = brută − stoc disponibil. Verifică dacă stocul a fost deja consumat într-o săptămână anterioară.';}
+      var got=rc.map(App.val).filter(function(v){return v>0;}).sort().join(','),want=rc.map(function(c){return App.exp(id,'rel',+c.dataset.t);}).filter(function(v){return v>0;}).sort().join(',');
+      if(got===want&&got!=='')return '❌ <b>Lansare</b>: cantitățile sunt bune, dar <b>momentul</b> nu. Lansezi cu <b>'+it.lt+' săpt.</b> înainte de nevoie.';
+      return '❌ <b>Lansare</b>: cererea netă din săpt. t se lansează în săpt. <b>t − '+it.lt+'</b>.';}
     return '';
-  }
-
-  function finishBlock(id,i,pts){
-    st.pts[i]=pts; st.cur=i+1;
-    if(st.cur>=ids.length) st.done=true;
-    render();
-    if(st.done) confetti();
-  }
-
-  function bind(){
-    $$('button[data-act]',box).forEach(function(b){b.addEventListener('click',function(){
-      var id=ids[st.cur], i=st.cur, act=b.dataset.act, cells=cellsOf(id);
-      if(act==='check'){
-        var allOk=true;
-        cells.forEach(function(c){
-          var ok=readVal(c)===exp(id,c.dataset.row,+c.dataset.t);
-          c.classList.remove('ok','bad','hint'); c.classList.add(ok?'ok':'bad'); if(!ok) allOk=false;
-        });
-        if(allOk){
-          var pts=Math.max(10,100-10*st.fails[id]-15*st.hints[id]);
-          feedback(id,'good','🎉 Corect! +'+pts+' puncte.');
-          setTimeout(function(){finishBlock(id,i,pts);},650);
-        } else {
-          st.fails[id]++;
-          feedback(id,'err',diagnose(id)+' <span class="muted">(−10 p)</span>');
-        }
-      } else if(act==='hint'){
-        var wrong=cells.filter(function(c){return readVal(c)!==exp(id,c.dataset.row,+c.dataset.t);});
-        if(!wrong.length){feedback(id,'info','Toate celulele sunt corecte — apasă „Verifică”.'); return;}
-        var rowsOrder={gross:0,net:1,rel:2};
-        wrong.sort(function(a,b){return rowsOrder[a.dataset.row]-rowsOrder[b.dataset.row] || a.dataset.t-b.dataset.t;});
-        var c=wrong[0]; c.value=String(exp(id,c.dataset.row,+c.dataset.t)); c.classList.remove('bad','ok'); c.classList.add('hint');
-        st.hints[id]++;
-        feedback(id,'info','💡 Ți-am completat o celulă (galben). Încearcă să înțelegi de ce are această valoare. (−15 p)');
-      } else if(act==='solve'){
-        finishBlock(id,i,0);
-      }
-    });});
-    $$('input.cell',box).forEach(function(inp,k,all){
-      inp.addEventListener('input',function(){inp.value=inp.value.replace(/[^0-9]/g,''); inp.classList.remove('ok','bad','hint');});
-      inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault(); var nx=all[k+1]; if(nx) nx.focus(); else {var b=$('button[data-act=check]',box); if(b) b.click();}}});
-    });
-  }
-
-  function showFinal(){
-    var pct=Math.round(100*total()/maxPts());
-    fin.innerHTML='<div class="card" style="text-align:center;border-color:var(--yellow)"><h2>🏁 Misiune încheiată</h2><div class="num" style="font:800 44px var(--mono);color:var(--yellow)">'+total()+' / '+maxPts()+'</div><p style="font-size:18px">Rang: <b>'+rank(pct)+'</b></p>'+
-      '<p class="muted">Vezi cascada comenzilor pe axa timpului. Observă cum lansarea produsului final „trage” după ea comenzile componentelor.</p>'+
-      '<div style="text-align:left"><div id="gx">'+ganttHTML(s,R,true)+'</div></div>'+
-      '<div class="row" style="justify-content:center;margin-top:12px"><button class="btn pink" id="replay">▶ Rulează cascada din nou</button>'+(label==='prov'?'<button class="btn" id="again">🎲 Provocare nouă</button>':'')+'</div></div>';
-    var rp=$('#replay',fin); if(rp) rp.onclick=function(){$('#gx',fin).innerHTML=ganttHTML(s,R,true);};
-    var ag=$('#again',fin); if(ag) ag.onclick=function(){Provocare.newOne();};
-    fin.scrollIntoView&&fin.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  render();
-}
-
-/* ================= MISIUNI ================= */
-var Misiuni={
-  init:function(){
-    var host=$('#p-misiuni');
-    host.innerHTML='<div class="card"><h2>🎯 Alege-ți misiunea</h2><p class="muted">Ești planner-ul fabricii. Primești comenzi de la clienți și trebuie să afli <b>ce, cât și când</b> să lansezi în producție sau în aprovizionare. Calculează tabelele MRP — aplicația te verifică, îți dă indicii și te punctează.</p>'+
-      '<div class="grid2" id="mcards"></div></div><div id="mx"></div>';
-    var cards=$('#mcards',host);
-    Object.keys(SCEN).forEach(function(k){
-      var s=SCEN[k], d=document.createElement('div'); d.className='mission'; d.style.setProperty('--c',s.c);
-      d.innerHTML='<div class="big">'+s.emoji+'</div><small>'+s.tag+'</small><h3 style="margin:.2em 0">'+s.title+'</h3><div class="muted" style="font-size:13px">'+Object.keys(s.items).length+' articole · orizont '+s.horizon+' săptămâni</div>';
-      d.onclick=function(){Misiuni.start(k);};
-      d.dataset.k=k; cards.appendChild(d);
-    });
-    Misiuni.start('masini');
   },
-  start:function(k){
-    var s=SCEN[k];
-    $$('.mission').forEach(function(m){m.classList.toggle('on',m.dataset.k===k);});
-    var mx=$('#mx');
-    mx.innerHTML='<div class="card" style="border-color:'+s.c+'"><h2>'+s.emoji+' '+s.title+'</h2><p style="font-size:15px">'+s.story+'</p></div><div id="mex"></div>';
-    Exercise(clone(s), $('#mex'), 'misiune');
-  }
-};
-
-/* ================= PROVOCARE ================= */
-var Provocare={
-  level:'mediu',
-  init:function(){
-    var h=$('#p-provocare');
-    h.innerHTML='<div class="card"><h2>🎲 Provocare aleatorie</h2><p class="muted">Un scenariu nou de fiecare dată: alt produs, alte stocuri, alte termene. Alege dificultatea și vezi dacă ești gata de examen.</p>'+
-      '<div class="row" id="lv"></div></div><div id="pex"></div>';
-    var lv=$('#lv',h);
-    [['usor','🟢 Ușor'],['mediu','🟡 Mediu'],['greu','🔴 Greu (4 articole)']].forEach(function(l){
-      var b=document.createElement('button'); b.className='btn ghost'; b.textContent=l[1]; b.dataset.l=l[0];
-      b.onclick=function(){Provocare.level=l[0]; Provocare.newOne();};
-      lv.appendChild(b);
-    });
-    Provocare.newOne();
-  },
-  gen:function(level){
-    var th=pick(THEMES), H=level==='greu'?9:8;
-    var lta=level==='usor'?1:pick([1,2]), ltb=level==='usor'?1:pick([1,2]), ltc=pick([1,2]), hard=level==='greu';
-    var qb=pick([2,4,6,8]);
-    var items={
-      root:{name:th.root[0],emoji:th.root[1],lt:1,stock:pick([10,20,30,40]),kind:'Produs final'},
-      a:{name:th.a[0],emoji:th.a[1],lt:lta,stock:pick([20,30,40,50,60,80]),kind:'Fabricat intern'},
-      b:{name:th.b[0],emoji:th.b[1],lt:ltb,stock:pick([50,100,150,200,300]),kind:'Cumpărat'}
-    };
-    var bom={root:[['a',1],['b',qb]]};
-    if(hard){ items.c={name:th.c[0],emoji:th.c[1],lt:ltc,stock:pick([50,100,200,300]),kind:'Cumpărat'}; bom.a=[['c',pick([2,3,4])]]; }
-    var tmp={items:items,bom:bom,root:'root'};
-    var minWeek=critPath(tmp)+1, nOrd=level==='usor'?2:3, weeks=[];
-    for(var w=minWeek; w<=H; w++) weeks.push(w);
-    weeks=shuffle(weeks).slice(0,nOrd);
-    var pmp={}; weeks.forEach(function(w){pmp[w]=pick([50,80,100,120,150,200,250]);});
-    return {id:'prov',title:th.root[0],emoji:th.root[1],horizon:H,root:'root',items:items,bom:bom,pmp:pmp};
-  },
-  newOne:function(){
-    $$('#lv .btn').forEach(function(b){b.classList.toggle('ghost',b.dataset.l!==Provocare.level);});
-    Exercise(Provocare.gen(Provocare.level), $('#pex'), 'prov');
-  }
-};
-
-/* ================= LABORATOR ================= */
-var Lab={
-  sid:'masini', S:null,
-  init:function(){
-    Lab.load('masini');
-  },
-  load:function(id){
-    Lab.sid=id; Lab.S=clone(SCEN[id]); Lab.draw();
-  },
-  draw:function(){
-    var s=Lab.S, h=$('#p-lab');
-    var html='<div class="card"><h2>🧪 Laborator MRP</h2><p class="muted">Modifică orice: cererea din PMP, stocurile, duratele, cantitățile din BOM. Rezultatul se recalculează instant. Pune-ți întrebarea „ce se întâmplă dacă…?”.</p><div class="row">';
-    Object.keys(SCEN).forEach(function(k){html+='<button class="btn '+(k===Lab.sid?'':'ghost')+'" data-sc="'+k+'">'+SCEN[k].emoji+' '+SCEN[k].title+'</button>';});
-    html+='</div><div class="row" style="margin-top:12px"><span class="muted" style="font-size:13px">Scenarii „ce-ar fi dacă”:</span>';
-    (WHATIF[Lab.sid]||[]).forEach(function(w,i){html+='<span class="chip btnlike" data-wi="'+i+'">'+w.label+'</span>';});
-    html+='<span class="chip btnlike" data-wi="reset">↩ Resetează</span></div></div>';
-    html+='<div class="card"><h3>📅 PMP — cerere de produse finite pe săptămână</h3><div class="pmprow">';
-    for(var t=1;t<=s.horizon;t++) html+='<label>S'+t+'<input class="num" type="number" min="0" step="10" data-pmp="'+t+'" value="'+(s.pmp[t]||0)+'"></label>';
-    html+='</div></div><div class="card"><h3>🧩 Articole: stoc, durată, cantitate în BOM</h3><div class="ctrl">';
-    sortedIds(s).forEach(function(id){
-      var it=s.items[id], par=parentsOf(s,id);
-      html+='<div class="ctl" style="--c:'+colorOf(s,id)+'"><b>'+it.emoji+' '+it.name+'</b>'+
-        '<label>Stoc <input class="num" type="number" min="0" step="5" data-item="'+id+'" data-f="stock" value="'+it.stock+'"></label>'+
-        '<label>Durată (săpt) <input class="num" type="number" min="1" max="8" data-item="'+id+'" data-f="lt" value="'+it.lt+'"></label>'+
-        par.map(function(p){return '<label>× în '+s.items[p[0]].name+' <input class="num" type="number" min="1" data-p="'+p[0]+'" data-c="'+id+'" value="'+p[1]+'"></label>';}).join('')+'</div>';
-    });
-    html+='</div></div><div id="labres"></div>';
-    h.innerHTML=html;
-    $$('[data-sc]',h).forEach(function(b){b.onclick=function(){Lab.load(b.dataset.sc);};});
-    $$('[data-wi]',h).forEach(function(b){b.onclick=function(){
-      if(b.dataset.wi==='reset'){Lab.S=clone(SCEN[Lab.sid]);} else {WHATIF[Lab.sid][+b.dataset.wi].f(Lab.S);}
-      Lab.draw();
+  bind:function(){
+    $$('#blocks button[data-act]').forEach(function(b){b.onclick=function(){
+      if(App.finished)return;var st=App.st,i=st.cur,id=App.ids[i],cells=App.cells(id),act=b.dataset.act;
+      if(act==='check'){var all=true;cells.forEach(function(c){var ok=App.val(c)===App.exp(id,c.dataset.row,+c.dataset.t);c.classList.remove('ok','bad','hint');c.classList.add(ok?'ok':'bad');if(!ok)all=false;});
+        if(all){var p=Math.max(10,100-10*st.fails[id]-15*st.hints[id]);App.fb(id,'good','🎉 Corect! +'+p+' puncte.');setTimeout(function(){App.advance(id,i,p);},500);}
+        else{st.fails[id]++;App.fb(id,'err',App.diagnose(id)+' <span class="muted">(−10 p)</span>');}
+      }else if(act==='hint'){
+        var wrong=cells.filter(function(c){return App.val(c)!==App.exp(id,c.dataset.row,+c.dataset.t);});
+        if(!wrong.length){App.fb(id,'info','Toate celulele sunt corecte — apasă „Verifică”.');return;}
+        var ord={gross:0,net:1,rel:2};wrong.sort(function(a,b){return ord[a.dataset.row]-ord[b.dataset.row]||a.dataset.t-b.dataset.t;});
+        var c=wrong[0];c.value=String(App.exp(id,c.dataset.row,+c.dataset.t));c.classList.remove('bad','ok');c.classList.add('hint');st.hints[id]++;
+        App.fb(id,'info','💡 Am completat o celulă (albastru). Încearcă să înțelegi de ce are această valoare. (−15 p)');
+      }else{st.shown[id]=1;App.advance(id,i,0);}
     };});
-    $$('input[data-pmp]',h).forEach(function(i){i.oninput=function(){var v=Math.max(0,parseInt(i.value,10)||0); if(v) s.pmp[i.dataset.pmp]=v; else delete s.pmp[i.dataset.pmp]; Lab.results(false);};});
-    $$('input[data-item]',h).forEach(function(i){i.oninput=function(){var v=Math.max(i.dataset.f==='lt'?1:0,parseInt(i.value,10)||0); s.items[i.dataset.item][i.dataset.f]=v; Lab.results(false);};});
-    $$('input[data-p]',h).forEach(function(i){i.oninput=function(){var v=Math.max(1,parseInt(i.value,10)||1); s.bom[i.dataset.p].forEach(function(e){if(e[0]===i.dataset.c) e[1]=v;}); Lab.results(false);};});
-    Lab.results(true);
-  },
-  roTable:function(s,R,id){
-    var H=s.horizon, r=R[id], it=s.items[id], c=colorOf(s,id);
-    var lateCol=[r.gross,r.net,r.rel].some(function(m){for(var t in m) if(+t<1&&m[t]>0) return true; return false;});
-    function lateSum(m){var x=0; for(var t in m) if(+t<1) x+=m[t]; return x;}
-    var h='<div style="margin:12px 0 4px;font-weight:700;color:'+c+'">'+it.emoji+' '+it.name+' <span class="badge">durată '+it.lt+'</span> <span class="badge">stoc '+it.stock+'</span></div><div class="scroll"><table class="mrp"><tr><th class="lbl" style="--c:'+c+'">Săptămâna</th>'+(lateCol?'<th style="--c:#ff4d5e">≤0</th>':'');
-    for(var t=1;t<=H;t++) h+='<th style="--c:'+c+'">'+t+'</th>';
-    h+='</tr>';
-    [['Cerere brută',r.gross,''],['Stoc proiectat (final săpt.)',r.proj,'stock'],['Cerere netă',r.net,''],['Recepție planificată',r.rec,''],['Lansare planificată',r.rel,'rel']].forEach(function(row){
-      h+='<tr class="'+(row[2]==='rel'?'rel':'')+'"><td class="lbl">'+row[0]+'</td>';
-      if(lateCol){var ls=row[2]==='stock'?0:lateSum(row[1]); h+='<td class="'+(ls?'late':'zero')+'">'+(ls||'·')+'</td>';}
-      for(var t=1;t<=H;t++){var v=row[1][t]||0; h+='<td class="'+(row[2]==='stock'?'stock ':'')+(v?'':'zero')+'">'+(v||'·')+'</td>';}
-      h+='</tr>';
+    $$('input.cell').forEach(function(inp,k,all){
+      inp.addEventListener('input',function(){inp.value=inp.value.replace(/[^0-9]/g,'');inp.classList.remove('ok','bad','hint');});
+      inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var nx=all[k+1];if(nx)nx.focus();else{var b=$('button[data-act=check]');if(b)b.click();}}});
     });
-    return h+'</table></div>';
   },
-  results:function(animate){
-    var s=Lab.S, R=mrp(s), ids=sortedIds(s), late=lateList(s,R);
-    var orders=0, units=0; ids.forEach(function(id){for(var t in R[id].rel) if(R[id].rel[t]>0){orders++; units+=R[id].rel[t];}});
-    var cp=critPath(s), first=Math.min.apply(null,Object.keys(s.pmp).map(Number).concat([99]));
-    var h='<div class="kpis"><div class="kpi" style="--c:#b8ff3d"><b>'+orders+'</b><span>comenzi planificate</span></div>'+
-      '<div class="kpi" style="--c:#19e3ff"><b>'+units+'</b><span>unități lansate (total)</span></div>'+
-      '<div class="kpi" style="--c:#ffe53d"><b>'+cp+' săpt</b><span>lead time cumulat (calea critică)</span></div>'+
-      '<div class="kpi" style="--c:'+(late.length?'#ff4d5e':'#4dffb8')+'"><b>'+late.length+'</b><span>comenzi întârziate</span></div></div>';
-    if(late.length){
-      h+=late.map(function(l){return '<div class="warn">⚠️ <b>'+s.items[l.id].name+'</b>: ar trebui lansate <b>'+l.q+'</b> unități în săptămâna <b>'+l.t+'</b> — adică în trecut. Nu poți livra la timp fără accelerare, termen negociat sau stoc suplimentar.</div>';}).join('');
-    } else if(first<99){
-      h+='<div class="okbox">✅ Toate lansările cad în orizontul de planificare. Prima livrare (săpt. '+first+') are '+(first-cp)+' săpt. de rezervă față de lead time-ul cumulat ('+cp+').</div>';
-    }
-    h+='<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">⏱ Cascada comenzilor</h3><button class="btn pink" id="rpl">▶ Rulează animația</button></div><div id="gx2" style="margin-top:10px">'+ganttHTML(s,R,animate)+'</div></div>';
-    h+='<div class="card"><h3>📋 Tabelele MRP (soluția completă)</h3>'+ids.map(function(id){return Lab.roTable(s,R,id);}).join('')+'</div>';
-    $('#labres').innerHTML=h;
-    $('#rpl').onclick=function(){$('#gx2').innerHTML=ganttHTML(s,R,true);};
+  advance:function(id,i,p){
+    if(App.finished)return;var st=App.st;st.pts[i]=p;st.cur=i+1;
+    if(st.cur>=App.ids.length){App.finish();return;}
+    App.render();var nb=$('#blk-'+App.ids[st.cur]);if(nb&&nb.scrollIntoView)nb.scrollIntoView({behavior:'smooth',block:'start'});
+  },
+  finish:function(){
+    if(App.finished)return;App.finished=true;clearInterval(App.timer);
+    var st=App.st,el=Math.round(App.elapsed());
+    var acc=0,solved=0;App.ids.forEach(function(id,i){var p=st.pts[i]||0;acc+=p;if(st.pts[i]!==undefined&&!st.shown[id])solved++;});
+    var allDone=App.ids.every(function(id,i){return st.pts[i]!==undefined;});
+    var maxAcc=App.ids.length*100,bonus=allDone?Math.round(150*(1-el/LIMIT)*(acc/maxAcc)):0;
+    var fails=0,hints=0;App.ids.forEach(function(id){fails+=st.fails[id];hints+=st.hints[id];});
+    var shown=Object.keys(st.shown).length;
+    var res={v:1,n:App.name,g:App.group,s:acc+bonus,a:acc,b:bonus,t:el,e:fails,h:hints,d:solved,x:shown};
+    store(App.key+'_res',JSON.stringify(res));
+    App.result(res,false);
+  },
+  showSaved:function(res){App.s=genBF(App.name);App.R=mrp(App.s);App.ids=sortedIds(App.s);App.lv=levels(App.s);App.result(res,true);},
+  result:function(res,again){
+    $('#bar').style.display='none';
+    var code=makeCode(res),pct=Math.round(100*res.a/(App.ids.length*100));
+    $('#app').innerHTML='<div class="card" style="text-align:center;border-color:var(--yellow)"><h2>'+(again?'📌 Ai predat deja — iată rezultatul tău':'🏁 Predat!')+'</h2><div class="big">'+res.s+'</div><div class="muted">puncte (maxim 750)</div><p style="font-size:20px;margin:8px 0">Rang: <b>'+rank(pct)+'</b></p>'+
+      '<div class="kpis"><div class="kpi" style="--c:#b8ff3d"><b>'+res.a+'</b><span>puncte acuratețe (max 600)</span></div><div class="kpi" style="--c:#19e3ff"><b>+'+res.b+'</b><span>bonus timp (max 150)</span></div><div class="kpi" style="--c:#ffe53d"><b>'+mmss(res.t)+'</b><span>timp folosit</span></div><div class="kpi" style="--c:#ff9f1c"><b>'+res.e+' / '+res.h+'</b><span>verificări greșite / indicii</span></div><div class="kpi" style="--c:#ff2d95"><b>'+res.d+' / '+App.ids.length+'</b><span>articole rezolvate singur</span></div></div></div>'+
+      '<div class="card"><h3>📨 Codul tău de rezultat</h3><p class="muted">Copiază codul de mai jos și trimite-l profesoarei (chat / formular). Cu el apari în clasament. Codul conține numele și scorul tău și nu poate fi modificat fără să devină invalid.</p>'+
+      '<textarea class="code" id="code" readonly>'+code+'</textarea><div class="row" style="margin-top:10px"><button class="btn" id="cp">📋 Copiază codul</button><span id="cpok" class="muted"></span></div><p id="sendst" class="muted" style="margin:10px 0 0"></p></div>'+
+      '<div class="card"><h3>⏱ Cascada comenzilor corecte pentru scenariul tău</h3><p class="muted">Așa trebuia să arate planul: fiecare bară începe în săptămâna lansării, iar cercul alb marchează momentul în care ai nevoie de articol.</p>'+ganttHTML(App.s,App.R)+'</div>';
+    $('#cp').onclick=function(){var ta=$('#code');ta.select();var ok=false;
+      try{if(navigator.clipboard){navigator.clipboard.writeText(code);ok=true;}}catch(e){}
+      if(!ok){try{ok=document.execCommand('copy');}catch(e){}}
+      $('#cpok').textContent=ok?'✅ Copiat!':'Selectează textul și apasă Ctrl+C.';};
+    App.send(code);
+    if(!again&&pct>=60)confetti();
+  },
+  send:function(code){
+    var st=$('#sendst');if(!st)return;
+    if(!SHEET_URL){st.textContent='Trimite codul de mai sus profesoarei.';return;}
+    st.textContent='⏳ Se trimite rezultatul către profesoară…';
+    try{
+      fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:code})
+        .then(function(){st.innerHTML='✅ Rezultatul a fost trimis automat. Păstrează totuși codul: dacă nu apari în clasament, îl trimiți manual.';})
+        .catch(function(){st.innerHTML='⚠️ Trimiterea automată a eșuat (internet?). <button class="btn ghost" id="retry" style="padding:4px 12px">Reîncearcă</button> sau trimite codul manual.';var r=$('#retry');if(r)r.onclick=function(){App.send(code);};});
+    }catch(e){st.textContent='⚠️ Trimiterea automată nu a funcționat. Trimite codul manual.';}
   }
 };
-
-/* ================= TEORIE ================= */
-var Teorie={
-  init:function(){
-    $('#p-teorie').innerHTML=
-    '<div class="card"><h2>📚 MRP pe scurt</h2><p><b>MRP (Materials Requirements Planning)</b> este un sistem de calcul al materialelor și al componentelor necesare pentru fabricarea unui produs finit. Răspunde la 3 întrebări:</p>'+
-    '<div class="grid3"><div class="kpi" style="--c:#ff3d9a"><b>❓ Ce</b><span>este nevoie? (ce articole)</span></div><div class="kpi" style="--c:#ffe53d"><b>🔢 Cât</b><span>este nevoie? (ce cantități)</span></div><div class="kpi" style="--c:#19e3ff"><b>🗓 Când</b><span>este nevoie? (ce termene)</span></div></div></div>'+
-    '<div class="card"><h3>⏳ Cum a evoluat</h3><div class="era">'+
-      '<div style="--c:#ff9f1c;background:#ff9f1c"><b>1960</b><span>Controlul stocurilor (programul master)</span></div>'+
-      '<div style="background:#ff3d9a"><b>1970</b><span>MRP I — planificarea necesarului de materiale</span></div>'+
-      '<div style="background:#b8ff3d"><b>1980</b><span>MRP II — resurse de producție, funcții integrate</span></div>'+
-      '<div style="background:#19e3ff"><b>1990</b><span>ERP — integrare între funcțiunile firmei</span></div>'+
-      '<div style="background:#8b5cff;color:#fff"><b>2000</b><span>ERP extins — clienți și furnizori în rețea</span></div></div></div>'+
-    '<div class="grid2"><div class="card" style="border-top:6px solid #ff3d9a"><h3>⚙️ Cerere dependentă</h3><p>Rezultă direct din necesarul de produse finite și depinde de planul de producție.</p><div class="chip">componente</div> <div class="chip">subansamble</div> <div class="chip">materiale</div></div>'+
-    '<div class="card" style="border-top:6px solid #ffe53d"><h3>📈 Cerere independentă</h3><p>Nu depinde direct de planul de producție, ci de prognoze și comenzile clienților.</p><div class="chip">produse finite</div> <div class="chip">bunuri de consum</div> <div class="chip">produse standardizate</div></div></div>'+
-    '<div class="card"><h3>📥 Cele 3 intrări ale MRP</h3><div class="grid3">'+
-      '<div class="kpi" style="--c:#19e3ff"><b>1</b><span><u>Planul master de producție (PMP)</u> — ce produse finite, în ce cantități și când. Se bazează pe comenzile clienților, previziuni și stocul de siguranță.</span></div>'+
-      '<div class="kpi" style="--c:#ff9f1c"><b>2</b><span><u>Lista de materiale (BOM)</u> — structura produsului pe niveluri: produs final (nivel 0), subansamble (nivel 1), componente (nivel 2) și cantitatea necesară din fiecare.</span></div>'+
-      '<div class="kpi" style="--c:#b8ff3d"><b>3</b><span><u>Înregistrările de inventar</u> — stocuri disponibile, comenzi deja lansate, durate de aprovizionare/execuție.</span></div></div></div>'+
-    '<div class="card"><h3>🧮 Pașii metodei</h3><div class="grid3">'+
-      '<div class="kpi" style="--c:#ff3d9a"><b>1. Inventarierea</b><span>piese și semifabricate necesare, în cantitățile necesare, la momentul potrivit</span></div>'+
-      '<div class="kpi" style="--c:#ffe53d"><b>2. Priorități</b><span>comenzile se lansează la data potrivită; datele de livrare rămân valide</span></div>'+
-      '<div class="kpi" style="--c:#4dffb8"><b>3. Capacități</b><span>încărcări complete, planificarea în viitor a încărcărilor prevăzute</span></div></div>'+
-      '<span class="formula" style="margin-top:14px">Cerere netă = <em>Cerere brută</em> − <em>Stoc disponibil</em></span>'+
-      '<span class="formula">Lansare în săptămâna <em>t − durata de execuție</em> = Cerere netă din săptămâna <em>t</em></span>'+
-      '<span class="formula">Cerere brută componentă = <em>Lansare părinte</em> × <em>cantitate în BOM</em></span></div>'+
-    '<div class="card"><h3>📤 Ieșirile MRP</h3><div class="grid2"><div><b>Rapoarte primare</b><ul class="clean"><li>comenzi planificate (cantitate și moment)</li><li>lansări de comenzi</li><li>modificări ale comenzilor planificate (inclusiv reprogramări și anulări)</li></ul></div>'+
-    '<div><b>Rapoarte secundare</b><ul class="clean"><li>rapoarte de control al performanței</li><li>rapoarte de planificare (previziuni)</li><li>rapoarte de excepție (erori, întârzieri, rebuturi)</li></ul></div></div></div>'+
-    '<div class="grid2"><div class="card" style="border-top:6px solid #b8ff3d"><h3 class="pro">👍 Avantaje</h3><ul class="clean"><li>stocuri reduse de materiale și semifabricate</li><li>servire promptă a clienților, întârzieri mai mici în livrare</li><li>reducerea timpilor morți</li><li>răspuns rapid la schimbări în strategie</li><li>creșterea productivității muncii</li><li>utilizare mai bună a resurselor</li></ul></div>'+
-    '<div class="card" style="border-top:6px solid #ff3d9a"><h3 class="con">👎 Dezavantaje</h3><ul class="clean"><li>depinde de acuratețea datelor (stocuri, BOM, durate)</li><li>necesită resurse informaționale și organizaționale</li><li>complexitate ridicată — personal instruit</li><li>puțin flexibil la schimbări frecvente sau cerere volatilă</li><li>costuri inițiale de implementare mari</li><li>risc de supraîncredere în sistem fără validare managerială</li></ul></div></div>'+
-    '<div class="card"><h3>🚀 Mergi la practică</h3><p>Acum că ai teoria, treci la <b>Misiuni</b> și calculează planul de lansări — apoi încearcă o <b>Provocare</b> cu scenariu aleatoriu.</p><button class="btn pink" onclick="Nav.go(\'misiuni\')">Începe misiunea 1</button></div>';
-  }
-};
-
-/* ================= QUIZ ================= */
-var QUIZ=[
-  {q:'La ce trei întrebări răspunde MRP?',o:['Cine, unde, de ce','Ce, cât și când este nevoie','Cât costă, cine livrează, cât durează transportul','Ce, cine și cu ce profit'],a:1,e:'MRP determină ce articole, în ce cantități și la ce termene sunt necesare.'},
-  {q:'Care dintre acestea este o cerere DEPENDENTĂ?',o:['Comanda unui client pentru 100 de mașini','Prognoza de vânzări a produsului finit','Plăcuțele de frână necesare pentru mașinile planificate','Cererea pentru un produs standardizat de raft'],a:2,e:'Plăcuțele rezultă direct din planul de producție al mașinilor, deci sunt cerere dependentă.'},
-  {q:'Care sunt cele 3 intrări principale ale MRP?',o:['PMP, lista de materiale (BOM), înregistrările de inventar','Bugetul, salariile, facturile','Prognoza, reclama, prețul','Capacitatea, profitul, transportul'],a:0,e:'PMP-ul spune ce produse finite și când; BOM — din ce sunt făcute; inventarul — ce ai deja.'},
-  {q:'Cerere brută 100 buc., stoc 30 buc. Cât este cererea netă?',o:['130','100','30','70'],a:3,e:'Cerere netă = cerere brută − stoc = 100 − 30 = 70.'},
-  {q:'Ai nevoie de un articol în săptămâna 6, iar durata de execuție este 2 săptămâni. Când lansezi comanda?',o:['Săptămâna 8','Săptămâna 6','Săptămâna 4','Săptămâna 2'],a:2,e:'Lansare = 6 − 2 = săptămâna 4.'},
-  {q:'Se lansează 50 de mașini. Fiecare are nevoie de 8 plăcuțe de frână. Care este cererea brută de plăcuțe?',o:['58','400','8','42'],a:1,e:'Cerere brută componentă = lansare părinte × cantitate în BOM = 50 × 8 = 400.'},
-  {q:'Care este un DEZAVANTAJ al MRP?',o:['Reducerea timpilor morți','Stocuri mai mici','Dependența de acuratețea datelor','Răspuns rapid la schimbări'],a:2,e:'Dacă stocurile, BOM-ul sau duratele sunt greșite, tot planul MRP iese greșit.'},
-  {q:'Un articol de nivel 2 din BOM are cererea brută generată de…',o:['Direct din comenzile clienților','Lansările articolelor de nivel 1 din care face parte','Stocul de siguranță al produsului final','Prognoza managerului'],a:1,e:'Cererea componentelor se „explodează” din lansările planificate ale părinților.'}
-];
-var Quiz={
-  i:0, sc:0,
-  init:function(){Quiz.i=0;Quiz.sc=0;Quiz.show();},
-  show:function(){
-    var h=$('#p-quiz');
-    if(Quiz.i>=QUIZ.length){
-      var pct=Math.round(100*Quiz.sc/QUIZ.length);
-      h.innerHTML='<div class="card" style="text-align:center"><h2>🏁 Rezultat quiz</h2><div style="font:800 44px var(--mono);color:var(--yellow)">'+Quiz.sc+' / '+QUIZ.length+'</div><p style="font-size:18px">Rang: <b>'+rank(pct)+'</b></p><button class="btn" id="qr">🔁 Reia quiz-ul</button></div>';
-      $('#qr').onclick=Quiz.init; if(pct>=70) confetti(); return;
-    }
-    var q=QUIZ[Quiz.i], opts=shuffle(q.o.map(function(t,k){return {t:t,ok:k===q.a};}));
-    h.innerHTML='<div class="card"><div class="row" style="justify-content:space-between"><b>Întrebarea '+(Quiz.i+1)+' / '+QUIZ.length+'</b><span class="chip">Scor: '+Quiz.sc+'</span></div><div class="bar2" style="margin:8px 0 14px"><i style="width:'+(100*Quiz.i/QUIZ.length)+'%"></i></div><h3 class="qq">'+q.q+'</h3><div id="opts"></div><div class="fb" id="qfb"></div><div class="row" style="margin-top:12px"><button class="btn" id="nx" style="display:none">Următoarea →</button></div></div>';
-    var box=$('#opts'), answered=false;
-    opts.forEach(function(o){
-      var b=document.createElement('button'); b.className='opt'; b.textContent=o.t;
-      b.onclick=function(){
-        if(answered) return; answered=true;
-        $$('.opt',box).forEach(function(x,k){ if(opts[k].ok) x.classList.add('right'); });
-        if(o.ok){Quiz.sc++; $('#qfb').className='fb show good'; $('#qfb').innerHTML='✅ Corect! '+q.e;}
-        else {b.classList.add('wrong'); $('#qfb').className='fb show err'; $('#qfb').innerHTML='❌ Nu chiar. '+q.e;}
-        $('#nx').style.display='';
-      };
-      box.appendChild(b);
-    });
-    $('#nx').onclick=function(){Quiz.i++; Quiz.show();};
-  }
-};
-
-/* ================= NAVIGARE ================= */
-var Nav={
-  inited:{},
-  go:function(t){
-    $$('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.t===t);});
-    $$('section.pane').forEach(function(p){p.classList.toggle('on',p.id==='p-'+t);});
-    if(!Nav.inited[t]){Nav.inited[t]=true; ({misiuni:Misiuni,provocare:Provocare,lab:Lab,teorie:Teorie,quiz:Quiz})[t].init();}
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-};
-$$('.tab').forEach(function(b){b.onclick=function(){Nav.go(b.dataset.t);};});
-Nav.go('misiuni');
+App.intro();
 </script>
 </body>
 </html>
